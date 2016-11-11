@@ -289,4 +289,65 @@ class Toggl{
 
         return $this->request->delete('/api/v8/project_users/'.$id);
     }
+
+
+    /***********************       3 - Tags          *************************/
+    /**
+     * Create Tag
+     *
+     *
+     * @param array data - (* = required)
+     *                  name* (string) - Tag name
+     *                  wid* (int) - Workspace ID
+     *
+     * @return Object
+     */
+    public function create_tag(array $data = [])
+    {
+        if(empty($data['wid']) || !strlen($data['wid'])){
+            throw new \Exception('Workspace ID required.');
+        }
+        if(empty($data['name']) || !strlen($data['name'])){
+            throw new \Exception('Tag name required.');
+        }
+        return $this->request->post('/api/v8/tags',['tag' => $data]);
+    }
+
+    /**
+     * Update Tag
+     *
+     *
+     * @param int id - Tag ID
+     * @param array data - (* = required)
+     *                  name* (string) - Tag name
+     *
+     * @return Object
+     */
+    public function update_tag($id = false, array $data = [])
+    {
+        if(!$id){
+            throw new \Exception('Tag ID required.');
+        }
+        if(empty($data['name']) || !strlen($data['name'])){
+            throw new \Exception('Tag name required.');
+        }
+        return $this->request->put('/api/v8/tags/'.$id,['tag' => $data]);
+    }
+
+    /**
+     * Delete Tag
+     *
+     *
+     * @param int id - Tag ID
+     *
+     * @return Object
+     */
+    public function delete_tag($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Tag ID required.');
+        }
+
+        return $this->request->delete('/api/v8/tags/'.$id);
+    }
 }
