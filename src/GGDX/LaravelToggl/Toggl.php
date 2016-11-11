@@ -83,4 +83,23 @@ class Toggl{
 
         return $this->request->delete('/api/v8/clients/'.$id);
     }
+
+
+    /**
+     * Get Client Projects
+     *
+     * Returns object of client projects
+     *
+     * @param int id - Get client by ID.
+     * @param bool/string active - OPTIONAL filter for active (true), inactive (false) and all ("both") projects.
+     * @return object.
+     */
+    public function get_client_projects($id = false, $active = true)
+    {
+        if(!$id){
+            return false;
+        }
+
+        return $this->request->get('/api/v8/clients/'.$id.'/projects', ['active' => $active]);
+    }
 }
