@@ -149,7 +149,7 @@ class TogglRequest{
         $client = new \GuzzleHttp\Client([
             'base_uri' => $this->base_url,
             'headers' => [
-                'Authorization' => 'Basic '.base64_encode($this->key.':')
+                'Authorization' => 'Basic '.base64_encode($this->key.':api_token')
             ]
         ]);
         try {
