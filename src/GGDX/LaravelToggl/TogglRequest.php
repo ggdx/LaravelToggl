@@ -143,7 +143,7 @@ class TogglRequest{
      */
     private function request($method, $url, $data)
     {
-        // Initialize client
+        //dd($data);
         $client = new \GuzzleHttp\Client([
             'base_uri' => $this->base_url,
             'headers' => [
@@ -154,11 +154,9 @@ class TogglRequest{
             switch ($method) {
                 case in_array($method, ['GET','POST']):
                     if(count($data)){
-                        $response = $client->request($method,$url.'?'.http_build_query($data));
+                        $response = $client->request($method,$url,['json' => $data]);
                     } else {
-
                         $response = $client->request($method,$url);
-
                     }
                     break;
                 case 'CREATE':
@@ -177,7 +175,7 @@ class TogglRequest{
             }
         } catch (\Exception $e) {
             $this->errors = [$e->getMessage()];
-            $response = false;
+            return $this->errors;
         }
 
         return $response;
