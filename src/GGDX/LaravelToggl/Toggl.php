@@ -65,4 +65,22 @@ class Toggl{
         }
         return $this->request->put('/api/v8/clients/'.$id, ['client' => $data]);
     }
+
+
+    /**
+     * Delete Client
+     *
+     * Deletes a single client
+     *
+     * @param int id - Get client by ID.
+     * @return null.
+     */
+    public function delete_client($id = false)
+    {
+        if(!$id){
+            return false;
+        }
+
+        return $this->request->delete('/api/v8/clients/'.$id);
+    }
 }

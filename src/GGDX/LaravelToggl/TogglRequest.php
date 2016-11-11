@@ -37,7 +37,6 @@ class TogglRequest{
             throw new Exception("You need an API key");
         }
         $this->key = $key;
-
     }
 
 
@@ -95,7 +94,7 @@ class TogglRequest{
     public function put($url, array $data = [])
     {
         $data = $this->sanitizeBools($data);
-        return $this->request(self::REQ_POST,$url, $data);
+        return $this->request(self::REQ_PUT,$url, $data);
     }
 
 
@@ -144,7 +143,6 @@ class TogglRequest{
      */
     private function request($method, $url, $data)
     {
-        //dd($data);
         // Initialize client
         $client = new \GuzzleHttp\Client([
             'base_uri' => $this->base_url,
@@ -158,18 +156,26 @@ class TogglRequest{
                     if(count($data)){
                         $response = $client->request($method,$url.'?'.http_build_query($data));
                     } else {
+
                         $response = $client->request($method,$url);
+
                     }
                     break;
                 case 'CREATE':
                     $response = $client->request('POST',$url, ['json' => $data]);
+                    break;
+                case 'PUT':
+                    $response = $client->request('PUT', $url, ['json' => $data]);
+                    break;
+                case 'DELETE':
+                    $response = $client->request('DELETE', $url);
                     break;
                 default:
                     $request = new Request($method, $url);
                     $response = $client->send($request);
                     break;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errors = [$e->getMessage()];
             $response = false;
         }
@@ -190,5 +196,4 @@ class TogglRequest{
         }
         return $data;
     }
-
 }
