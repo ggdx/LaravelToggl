@@ -33,12 +33,12 @@ class Toggl{
 
 
     /***********************       1 - CLIENTS          *************************/
-    // Gets all clients visible to user (API KEY USER)
 
     /**
      * Get Clients
      *
-     * Returns either all clients or a single client object
+     * Returns either all clients or a single client object.
+     * NOTE - Only shows users visible to the user owning the API key
      *
      * @param int id (OPTIONAL)- Get client by ID.
      * @return Object
@@ -61,8 +61,9 @@ class Toggl{
     public function update_client($id = false, array $data = [])
     {
         if(!$id){
-            return false;
+            throw new \Exception('Client ID required.');
         }
+
         return $this->request->put('/api/v8/clients/'.$id, ['client' => $data]);
     }
 
@@ -78,7 +79,7 @@ class Toggl{
     public function delete_client($id = false)
     {
         if(!$id){
-            return false;
+            throw new \Exception('Client ID required.');
         }
 
         return $this->request->delete('/api/v8/clients/'.$id);
@@ -97,9 +98,81 @@ class Toggl{
     public function get_client_projects($id = false, $active = true)
     {
         if(!$id){
-            return false;
+            throw new \Exception('Client ID required.');
         }
 
         return $this->request->get('/api/v8/clients/'.$id.'/projects', ['active' => $active]);
     }
+
+
+
+
+
+    /***********************       2 - Projects          *************************/
+    /**
+     * Create Project
+     *
+     *
+     * @param array data - (* = required)
+     *                  wid* (int) - Workspace ID
+     *                  cid (int) - Client ID
+     *                  active (bool) - Is the project active? Default true
+     *                  is_private (bool) - Is the project private to your User? Default true
+     *                  name* (string) - Project name
+     *                  billable (bool) - Is the project billable? - Toggl Pro
+     *                  rate (float) - Hourly rate of project - Toggl Pro
+     * @return Object
+     */
+    public function create_project(array $data = [])
+    {
+        if(empty($data['wid']) || !strlen($data['wid'])){
+            throw new \Exception('Workspace ID required.');
+        }
+        if(empty($data['name']) || !strlen($data['name'])){
+            throw new \Exception('Project name required.');
+        }
+        return $this->request->post('/api/v8/projects',['project' => $data]);
+    }
+
+
+    /**
+     * Get Project
+     *
+     *
+     * @param int id - Project ID
+     * @return Object
+     */
+    public function get_project($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Project ID required.');
+        }
+        return $this->request->get('/api/v8/projects/'.$id);
+    }
+
+
+    /**
+     * Update Project
+     *
+     *
+     * @param array data - (* = required)
+     *                  wid* (int) - Workspace ID
+     *                  cid (int) - Client ID
+     *                  active (bool) - Is the project active? Default true
+     *                  is_private (bool) - Is the project private to your User? Default true
+     *                  name* (string) - Project name
+     *                  billable (bool) - Is the project billable? - Toggl Pro
+     *                  rate (float) - Hourly rate of project - Toggl Pro
+     * @return Object
+     */
+    public function update_project($id = false, array $data = [])
+    {
+        if(!$id){
+            throw new \Exception('Project ID required.');
+        }
+
+        return $this->request->put('/api/v8/projects/'.$id,['project' => $data]);
+    }
+
+
 }

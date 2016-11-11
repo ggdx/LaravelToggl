@@ -159,11 +159,8 @@ class TogglRequest{
                         $response = $client->request($method,$url);
                     }
                     break;
-                case 'CREATE':
-                    $response = $client->request('POST',$url, ['json' => $data]);
-                    break;
-                case 'PUT':
-                    $response = $client->request('PUT', $url, ['json' => $data]);
+                case in_array($method, ['CREATE','PUT']):
+                    $response = $client->request($method,$url, ['json' => $data]);
                     break;
                 case 'DELETE':
                     $response = $client->request('DELETE', $url);
