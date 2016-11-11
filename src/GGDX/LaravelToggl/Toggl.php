@@ -267,7 +267,7 @@ class Toggl{
      */
     public function update_project_user($id = false, array $data = [])
     {
-        if(!$id)){
+        if(!$id){
             throw new \Exception('Project User ID required.');
         }
 
@@ -281,7 +281,7 @@ class Toggl{
      * @param int id - Project user ID.
      * @return null.
      */
-    public function delete_client($id = false)
+    public function delete_project_user($id = false)
     {
         if(!$id){
             throw new \Exception('Project user ID required.');
