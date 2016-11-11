@@ -175,4 +175,54 @@ class Toggl{
     }
 
 
+    /**
+     * Delete Project
+     *
+     * Deletes a single Project (single int)
+     * Deletes multiple projects (array of int - [123, 456, 789])
+     *
+     * @param int id - Get Project by ID.
+     * @param array id - Get multiple projects by ID.
+     * @return int id - Deleted project ID, or null if nothing deleted.
+     */
+    public function delete_project($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Project ID required.');
+        }
+        if(is_array($id)){
+            $id = implode(',',$id);
+        }
+        return $this->request->delete('/api/v8/projects/'.$id);
+    }
+
+
+    /**
+     * Get Project Users
+     *
+     * @param int id - Get Project by ID.
+     * @return object - All users attributed to project
+     */
+    public function project_users($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Project ID required.');
+        }
+        return $this->request->get('/api/v8/projects/'.$id.'/project_users');
+    }
+
+
+    /**
+     * Get Project Tasks (Toggl Pro)
+     *
+     * @param int id - Get Project by ID.
+     * @return object - All users attributed to project
+     */
+    public function project_tasks($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Project ID required.');
+        }
+        return $this->request->get('/api/v8/projects/'.$id.'/project_tasks');
+    }
 }
