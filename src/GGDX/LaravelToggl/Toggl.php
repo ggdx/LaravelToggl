@@ -21,7 +21,7 @@ use Exception;
 
 class Toggl{
 
-    
+
     private $request;
 
 
@@ -32,14 +32,37 @@ class Toggl{
 
 
 
-    /***********************        COMMENTS          *************************/
-    // Gets a Comment
-    public function getComment($id = false)
+    /***********************       1 - CLIENTS          *************************/
+    // Gets all clients visible to user (API KEY USER)
+
+    /**
+     * Get Clients
+     *
+     * Returns either all clients or a single client object
+     *
+     * @param int id (OPTIONAL)- Get client by ID.
+     * @return Object
+     */
+    public function get_clients($id = false)
+    {
+        return $id ? $this->request->get('/api/v8/clients/'.$id) : $this->request->get('/api/v8/clients');
+    }
+
+
+    /**
+     * Update Client
+     *
+     * Update a single client
+     *
+     * @param int id - Get client by ID.
+     * @param array data - [name, notes].
+     * @return Object - client object.
+     */
+    public function update_client($id = false, array $data = [])
     {
         if(!$id){
             return false;
         }
-        return $this->request->get('v2.2/Comments/'.$id);
+        return $this->request->put('/api/v8/clients/'.$id, ['client' => $data]);
     }
-
 }
