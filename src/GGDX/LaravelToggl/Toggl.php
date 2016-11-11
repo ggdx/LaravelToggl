@@ -225,4 +225,68 @@ class Toggl{
         }
         return $this->request->get('/api/v8/projects/'.$id.'/project_tasks');
     }
+
+
+
+    /***********************       2a - Project Users          *************************/
+    /**
+     * Create Project User
+     *
+     *
+     * @param array data - (* = required)
+     *                  pid* (int) - Project ID
+     *                  uid* (int) - User ID
+     *                  wid (int) - Workspace ID - Optional, if not set then user default used
+     *                  manager (bool) - Admin rights to project? Default false
+     *                  rate (float) - Hourly rate (Toggl Pro)
+     * @return Object
+     */
+    public function create_project_user(array $data = [])
+    {
+        if(empty($data['wid']) || !strlen($data['wid'])){
+            throw new \Exception('Workspace ID required.');
+        }
+        if(empty($data['uid']) || !strlen($data['uid'])){
+            throw new \Exception('User ID required.');
+        }
+        return $this->request->post('/api/v8/projects',['project_user' => $data]);
+    }
+
+
+    /**
+     * Create Project User
+     *
+     *
+     * @param array data - (* = required)
+     *                  pid* (int) - Project ID
+     *                  uid* (int) - User ID
+     *                  wid (int) - Workspace ID - Optional, if not set then user default used
+     *                  manager (bool) - Admin rights to project? Default false
+     *                  rate (float) - Hourly rate (Toggl Pro)
+     * @return Object
+     */
+    public function update_project_user($id = false, array $data = [])
+    {
+        if(!$id)){
+            throw new \Exception('Project User ID required.');
+        }
+
+        return $this->request->put('/api/v8/projects',['project_user' => $data]);
+    }
+
+
+    /**
+     * Delete Project User
+     *
+     * @param int id - Project user ID.
+     * @return null.
+     */
+    public function delete_client($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Project user ID required.');
+        }
+
+        return $this->request->delete('/api/v8/project_users/'.$id);
+    }
 }
