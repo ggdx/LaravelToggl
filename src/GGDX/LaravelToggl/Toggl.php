@@ -11,7 +11,7 @@ use Exception;
  * 2 - Projets
  * 2a - Project Users
  * 3 - Tags
- * 4 - Tasks
+ * @TODO 4 - Tasks (Toggl Pro)
  * 5 - Time Entries
  * 6 - Users
  * 7 - Workspeaces
@@ -22,12 +22,13 @@ use Exception;
 class Toggl{
 
 
-    private $request;
-
+    private $request, $now;
 
     public function __construct($config)
     {
         $this->request = new TogglRequest($config['api_key']);
+
+        $this->now = \Carbon\Carbon::now()->toIso8601String();
     }
 
 
@@ -131,6 +132,7 @@ class Toggl{
         if(empty($data['name']) || !strlen($data['name'])){
             throw new \Exception('Project name required.');
         }
+
         return $this->request->post('/api/v8/projects',['project' => $data]);
     }
 
@@ -350,4 +352,91 @@ class Toggl{
 
         return $this->request->delete('/api/v8/tags/'.$id);
     }
+
+
+    /***********************       5 - Time Entries          *************************/
+
+    /**
+     * Create a time entry
+     *
+     *
+     * @param array data - (* = required)
+     *                  description* (string) - Entry description
+     *                  wid* (int) - Workspace ID. Default is API user default.
+     *                  pid* (int) - Project ID
+     *                  tid (int) - Task ID (Toggl Pro)
+     *                  billable (bool) - default false (Toggl Pro)
+     *                  start* (string) - Entry start time, ISO8601 date AND time
+     *                  stop (string) - Entry stop time, ISO8601 date AND time - If not set, timer will run until stopped.
+     *                  created_with* (string) - The name of the client app, default GGDX_LaravelToggl
+     *                  tags (array) - Array of tag names (string)
+     * @return object
+     */
+    public function start_timer(array $data = [])
+    {
+
+
+
+        if(empty($data['description']) || !strlen($data['description'])){
+            throw new \Exception('Description required.');
+        }
+        if(empty($data['pid']) || !strlen($data['pid'])){
+            throw new \Exception('Project ID required.');
+        }
+
+        if(empty($data['start']) || !strlen($data['start']) || !$this->validate_date($data['start']) || $data['start'] > $now){
+            $data['start'] = $this->now;
+        }
+
+        if(empty($data['created_with']) || !strlen($data['created_with'])){
+            $data['created_with'] = 'GGDX_LaravelToggl';
+        }
+        if(empty($data['wid']) || !strlen($data['wid'])){
+            $user = $this->get_current_user();
+            $data['wid'] = $user->data->default_wid;
+        }
+        $data['duration'] = date('U') * -1;
+        //dd($data);
+        return $this->request->post('/api/v8/time_entries',['time_entry' => $data]);
+    }
+
+
+
+    /***********************       6 - Users          *************************/
+
+    /**
+     * Get current user (API Key Owner)
+     *
+     * @return return object
+     */
+    public function get_current_user()
+    {
+        return json_decode($this->request->get('/api/v8/me')->getBody()->getContents());
+    }
+
+
+
+
+    // Helpers
+
+    // Validate ISO 8601
+    private function validate_date($date)
+    {
+        if (preg_match('/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/', $date, $parts) == true) {
+            $time = gmmktime($parts[4], $parts[5], $parts[6], $parts[2], $parts[3], $parts[1]);
+
+            $input_time = strtotime($date);
+            if ($input_time === false) return false;
+
+            return $input_time == $time;
+        } else {
+            return false;
+        }
+    }
+
+
+
+
+
+
 }
