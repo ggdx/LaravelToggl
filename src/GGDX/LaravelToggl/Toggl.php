@@ -359,6 +359,7 @@ class Toggl{
     /**
      * Create a time entry (start timer)
      *
+     * NOTE - If a "stop" value is given, you will not need to use stop_timer().
      *
      * @param array data - (* = required)
      *                  description* (string) - Entry description
@@ -396,8 +397,6 @@ class Toggl{
     }
 
 
-
-
     /**
      * Stop timer
      *
@@ -411,6 +410,74 @@ class Toggl{
         }
 
         return $this->request->put('/api/v8/time_entries/'.$id.'/stop');
+    }
+
+
+    /**
+     * Get time entry
+     *
+     * @param int id Time entry ID
+     * @return object - Time entry
+     */
+    public function get_time_entry($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Time entry ID is required');
+        }
+
+        return $this->request->get('/api/v8/time_entries/'.$id);
+    }
+
+
+    /**
+     * Get running time entry data
+     *
+     * @return object - Time entry
+     */
+    public function get_current_entry()
+    {
+        return $this->request->get('/api/v8/time_entries/current');
+    }
+
+
+    /**
+     * Update a time entry
+     *
+     * @param int id - Time entry ID
+     * @param array data
+     *                  description (string) - Entry description
+     *                  wid (int) - Workspace ID. Default is API user default.
+     *                  pid (int) - Project ID
+     *                  tid (int) - Task ID (Toggl Pro)
+     *                  billable (bool) - default false (Toggl Pro)
+     *                  start (string) - Entry start time, ISO8601 date AND time
+     *                  stop (string) - Entry stop time, ISO8601 date AND time - If not set, timer will run until stopped.
+     *                  created_with (string) - The name of the client app, default GGDX_LaravelToggl
+     *                  tags (array) - Array of tag names (string)
+     * @return object - Time entry
+     */
+    public function update_time_entry($id = false, array $data = [])
+    {
+        if(!$id){
+            throw new \Exception('Time entry ID is required');
+        }
+
+        return $this->request->put('/api/v8/time_entries/'.$id,['time_entry' => $data]);
+    }
+
+
+    /**
+     * Delete time entry
+     *
+     * @param int id - Time entry ID
+     * @return int - Time entry ID
+     */
+    public function delete_time_entry($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Time entry ID is required');
+        }
+        return $this->request->delete('/api/v8/time_entries/'.$id);
     }
 
 
