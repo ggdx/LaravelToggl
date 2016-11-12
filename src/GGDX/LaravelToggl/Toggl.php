@@ -487,10 +487,14 @@ class Toggl{
     /**
      * Get current user (API Key Owner)
      *
+     * @var bool full - Returns full user data (projects, tme entries, etc.) if true, otherwise just basic user info.
      * @return return object
      */
-    public function get_current_user()
+    public function get_current_user($full = false)
     {
+        if($full){
+            return $this->request->get('/api/v8/me?with_related_data=true');
+        }
         return $this->request->get('/api/v8/me');
     }
 
