@@ -30,14 +30,4 @@ class TogglServiceProvider extends ServiceProvider
             return new Toggl($config);
         });
     }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [];
-    }
 }
