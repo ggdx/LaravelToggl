@@ -685,7 +685,7 @@ class Toggl{
      * @param int $id Workspace ID
      * @return Object
      */
-    public function get_workspace_tasks($id = false)
+    public function get_workspace_tags($id = false)
     {
         if(!$id){
             throw new \Exception('Workspace ID is required');
@@ -754,9 +754,21 @@ class Toggl{
 
 
 
+    /***********************      8 - Dashboard         *************************/
 
-
-
+    /**
+     * Get dashboard
+     *
+     * @param int id - Workspace ID
+     * @return object
+     */
+    public function get_dashboard($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Workspace ID is required');
+        }
+        return $this->request->get('/api/v8/dashboard/'.$id);
+    }
 
 
 
