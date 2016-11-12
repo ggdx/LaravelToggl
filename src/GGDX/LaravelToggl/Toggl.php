@@ -573,6 +573,128 @@ class Toggl{
 
 
 
+    /***********************       7 - WORKSPACE          *************************/
+
+    /**
+     * Get Workspaces
+     *
+     * Returns all workspaces belonging to API key user, or if $id set - single workspace.
+     *
+     * @param int $id Workspace ID (optional)
+     * @return Object
+     */
+    public function get_workspace($id = false)
+    {
+        return $id ? $this->request->get('/api/v8/workspaces/'.$id) : $this->request->get('/api/v8/workspaces');
+    }
+
+
+    /**
+     * Update Workspace
+     *
+     * @param int $id Workspace ID
+     * @param array $data [
+     *                     name => string
+     *                     default_currency => string (GBP, EUR, etc.)
+     *                     default_hourly_rate => float
+     *                     only_admins_may_create_projects => bool (whether only the admins can create projects or everybody), ADMIN OF WORKSPACE ONLY
+     *                     only_admins_see_billable_rates => bool (whether only the admins can see billable rates or everybody), ADMIN OF WORKSPACE ONLY
+     *                     rounding => int (0 = no rounding, -1 = round down, 1 = round up)
+     *                     rounding_minutes => int (only available if $data['rounding'] != 0)
+     *                ]
+     * @return Object
+     */
+    public function update_workspace($id = false, array $data = [])
+    {
+        if(!$id){
+            throw new \Exception('Workspace ID is required');
+        }
+        if(!count($data)){
+            throw new \Exception("You need some data to update a workspace.");
+        }
+        return $this->request->put('/api/v8/workspaces/'.$id, ['workspace' => $data]);
+    }
+
+
+    /**
+     * Get Workspaces Users
+     *
+     * @param int $id Workspace ID
+     * @return Object
+     */
+    public function get_workspace_users($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Workspace ID is required');
+        }
+        return $this->request->get('/api/v8/workspaces/'.$id.'/users');
+    }
+
+
+    /**
+     * Get Workspaces Clients
+     *
+     * @param int $id Workspace ID
+     * @return Object
+     */
+    public function get_workspace_clients($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Workspace ID is required');
+        }
+        return $this->request->get('/api/v8/workspaces/'.$id.'/clients');
+    }
+
+
+    /**
+     * Get Workspaces Projects
+     *
+     * @param int $id Workspace ID
+     * @param bool/string $active (true, false, "both") - Filter by active, inactive or all projects
+     * @param bool $actual_hours - Gets by actual completed hours per project. Default false
+     * @return Object
+     */
+    public function get_workspace_projects($id = false, $active = true, $actual_hours = false)
+    {
+        if(!$id){
+            throw new \Exception('Workspace ID is required');
+        }
+        return $this->request->get('/api/v8/workspaces/'.$id.'/projects?active='.$active.'&actual_hours='.$actual_hours);
+    }
+
+
+    /**
+     * Get Workspaces Tasks
+     *
+     * @param int $id Workspace ID
+     * @param bool/string $active (true, false, "both") - Filter by active, inactive or all tasks
+     * @return Object
+     */
+    public function get_workspace_tasks($id = false, $active = true)
+    {
+        if(!$id){
+            throw new \Exception('Workspace ID is required');
+        }
+        return $this->request->get('/api/v8/workspaces/'.$id.'/tasks?active='.$active);
+    }
+
+
+    /**
+     * Get Workspaces Tags
+     *
+     * @param int $id Workspace ID
+     * @return Object
+     */
+    public function get_workspace_tasks($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Workspace ID is required');
+        }
+        return $this->request->get('/api/v8/workspaces/'.$id.'/tags');
+    }
+
+
+
 
     // Helpers
 
