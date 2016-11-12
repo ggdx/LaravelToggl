@@ -28,7 +28,7 @@ class Toggl{
     {
         $this->request = new TogglRequest($config['api_key']);
 
-        $this->now = \Carbon\Carbon::now()->toIso8601String();
+        $this->now = date('c');
     }
 
 
@@ -357,7 +357,7 @@ class Toggl{
     /***********************       5 - Time Entries          *************************/
 
     /**
-     * Create a time entry
+     * Create a time entry (start timer)
      *
      *
      * @param array data - (* = required)
@@ -370,34 +370,47 @@ class Toggl{
      *                  stop (string) - Entry stop time, ISO8601 date AND time - If not set, timer will run until stopped.
      *                  created_with* (string) - The name of the client app, default GGDX_LaravelToggl
      *                  tags (array) - Array of tag names (string)
-     * @return object
+     * @return object - Time entry
      */
     public function start_timer(array $data = [])
     {
-
-
-
         if(empty($data['description']) || !strlen($data['description'])){
             throw new \Exception('Description required.');
         }
         if(empty($data['pid']) || !strlen($data['pid'])){
             throw new \Exception('Project ID required.');
         }
+        if(empty($data['wid']) || !strlen($data['wid'])){
+            throw new \Exception('Workspace ID required.');
+        }
 
         if(empty($data['start']) || !strlen($data['start']) || !$this->validate_date($data['start']) || $data['start'] > $now){
             $data['start'] = $this->now;
         }
-
         if(empty($data['created_with']) || !strlen($data['created_with'])){
             $data['created_with'] = 'GGDX_LaravelToggl';
         }
-        if(empty($data['wid']) || !strlen($data['wid'])){
-            $user = $this->get_current_user();
-            $data['wid'] = $user->data->default_wid;
-        }
         $data['duration'] = date('U') * -1;
-        //dd($data);
+
         return $this->request->post('/api/v8/time_entries',['time_entry' => $data]);
+    }
+
+
+
+
+    /**
+     * Stop timer
+     *
+     * @param int id Time entry ID
+     * @return object - Time entry
+     */
+    public function stop_timer($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Time entry ID is required');
+        }
+
+        return $this->request->put('/api/v8/time_entries/'.$id.'/stop');
     }
 
 
@@ -411,7 +424,7 @@ class Toggl{
      */
     public function get_current_user()
     {
-        return json_decode($this->request->get('/api/v8/me')->getBody()->getContents());
+        return $this->request->get('/api/v8/me');
     }
 
 
