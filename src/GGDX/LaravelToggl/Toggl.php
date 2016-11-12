@@ -499,6 +499,33 @@ class Toggl{
     }
 
 
+    /**
+     * Update current user (API Key Owner)
+     *
+     * @var array data - [
+     *                      fullname => string
+     *                      email => string
+     *                      send_product_emails => bool
+     *                      send_weekly_report => bool
+     *                      send_timer_notifications => bool
+     *                      store_start_and_stop_time => bool
+     *                      beginning_of_week => int (between 0 - 6)
+     *                      timezone => string, i.e. "Europe/London"
+     *                      timeofday_format => string, either "H:mm" (24h) OR "h:mm A" (12h)
+     *                      date_format => string, either of the following - "YYYY-MM-DD", "DD.MM.YYYY", "DD-MM-YYYY", "MM/DD/YYYY", "DD/MM/YYYY", "MM-DD-YYYY"
+     *                ]
+     *
+     * @return return object - User object
+     */
+    public function update_current_user(array $data = [])
+    {
+        if(!count($data)){
+            throw new \Exception("You need some data to update a user.");
+        }
+        return $this->request->put('/api/v8/me', ['user' => $data]);
+    }
+
+
 
 
     // Helpers
