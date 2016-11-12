@@ -127,10 +127,10 @@ class Toggl{
     public function create_project(array $data = [])
     {
         if(empty($data['wid']) || !strlen($data['wid'])){
-            throw new \Exception('Workspace ID required.');
+            throw new \Exception('wid (Workspace ID) required.');
         }
         if(empty($data['name']) || !strlen($data['name'])){
-            throw new \Exception('Project name required.');
+            throw new \Exception('name (Project name) required.');
         }
 
         return $this->request->post('/api/v8/projects',['project' => $data]);
@@ -246,10 +246,10 @@ class Toggl{
     public function create_project_user(array $data = [])
     {
         if(empty($data['wid']) || !strlen($data['wid'])){
-            throw new \Exception('Workspace ID required.');
+            throw new \Exception('wid (Workspace ID) required.');
         }
         if(empty($data['uid']) || !strlen($data['uid'])){
-            throw new \Exception('User ID required.');
+            throw new \Exception('uid (User ID) required.');
         }
         return $this->request->post('/api/v8/projects',['project_user' => $data]);
     }
@@ -307,10 +307,10 @@ class Toggl{
     public function create_tag(array $data = [])
     {
         if(empty($data['wid']) || !strlen($data['wid'])){
-            throw new \Exception('Workspace ID required.');
+            throw new \Exception('wid (Workspace ID) required.');
         }
         if(empty($data['name']) || !strlen($data['name'])){
-            throw new \Exception('Tag name required.');
+            throw new \Exception('name (Tag name) required.');
         }
         return $this->request->post('/api/v8/tags',['tag' => $data]);
     }
@@ -376,13 +376,13 @@ class Toggl{
     public function start_timer(array $data = [])
     {
         if(empty($data['description']) || !strlen($data['description'])){
-            throw new \Exception('Description required.');
+            throw new \Exception('description required.');
         }
         if(empty($data['pid']) || !strlen($data['pid'])){
-            throw new \Exception('Project ID required.');
+            throw new \Exception('pid (Project ID) required.');
         }
         if(empty($data['wid']) || !strlen($data['wid'])){
-            throw new \Exception('Workspace ID required.');
+            throw new \Exception('wid (Workspace ID) required.');
         }
 
         if(empty($data['start']) || !strlen($data['start']) || !$this->validate_date($data['start']) || $data['start'] > $now){
@@ -542,7 +542,7 @@ class Toggl{
     /**
      * Create new user
      *
-     * @param array data - [
+     * @param array $data - [
      *                     fullname => string
      *                     email => string
      *                     password => string
@@ -692,6 +692,74 @@ class Toggl{
         }
         return $this->request->get('/api/v8/workspaces/'.$id.'/tags');
     }
+
+
+
+
+
+    /***********************       7a - WORKSPACE USERS         *************************/
+
+    /**
+     * Invite users to Workspace
+     *
+     * @param int $id Workspace ID
+     * @param array $data Array of email addresses
+     * @return object
+     */
+    public function invite_users($id = false, array $data = [])
+    {
+        if(!$id){
+            throw new \Exception('Workspace ID is required');
+        }
+        if(!count($data)){
+            throw new \Exception('At least one email address is needed to invite.');
+        }
+        return $this->request->post('/api/v8/workspaces/'.$id.'/invite',['emails' => $data]);
+    }
+
+    /**
+     * Update workspace user (Only admin flag may be edited)
+     *
+     * @param int $id Workspace User ID
+     * @param array $data - [
+     *                     admin => bool - if user is admin of workspace
+     *                ]
+     * @return object
+     */
+    public function update_workspace_user($id = false, array $data = [])
+    {
+        if(!$id){
+            throw new \Exception('Workspace User ID is required (note, NOT Workspace ID and NOT User ID)');
+        }
+        if(!count($data)){
+            throw new \Exception("You need some data to update a workspace.");
+        }
+        return $this->request->put('/api/v8/workspace_users/'.$id,['workspace_user' => $data]);
+    }
+
+
+    /**
+     * Delete workspace user
+     *
+     * @param int id - Workspace user ID
+     * @return int - Workspace user ID
+     */
+    public function delete_workspace_user($id = false)
+    {
+        if(!$id){
+            throw new \Exception('Workspace User ID is required (note, NOT Workspace ID and NOT User ID)');
+        }
+        return $this->request->delete('/api/v8/workspace_users/'.$id);
+    }
+
+
+
+
+
+
+
+
+
 
 
 
