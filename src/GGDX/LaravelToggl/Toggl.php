@@ -526,6 +526,52 @@ class Toggl{
     }
 
 
+    /**
+     * Get new API key
+     *
+     * NOTE - You MUST change your key, referenced in /config/toggl.php (so that's env('TOGGL_KEY')). The old one will not work going forwards.
+     *
+     * @return string API Key
+     */
+    public function reset_api_key()
+    {
+        return $this->request->post('/api/v8/reset_token');
+    }
+
+
+    /**
+     * Create new user
+     *
+     * @param array data - [
+     *                     fullname => string
+     *                     email => string
+     *                     password => string
+     *                     timezone => string (i.e. UTC, etc.)
+     *                     created_with => string (name of app, default is GGDX_LaravelToggl)
+     *                ] ALL REQUIRED
+     * @return object User Object (includes new user API key)
+     */
+    public function create_user(array $data = [])
+    {
+        if(empty($data['fullname']) || !strlen($data['fullname'])){
+            throw new \Exception("fullname is required");
+        }
+        if(empty($data['email']) || !strlen($data['email'])){
+            throw new \Exception("email is required");
+        }
+        if(empty($data['password']) || !strlen($data['password'])){
+            throw new \Exception("password is required");
+        }
+        if(empty($data['timezone']) || !strlen($data['timezone'])){
+            throw new \Exception("timezone is required");
+        }
+        if(empty($data['created_with']) || !strlen($data['created_with'])){
+            $data['created_with'] = 'GGDX_LaravelToggl';
+        }
+        return $this->request->post('/api/v8/signups',["user" => $data]);
+    }
+
+
 
 
     // Helpers
