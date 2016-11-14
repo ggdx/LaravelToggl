@@ -1,7 +1,7 @@
 {
     "name": "ggdx/laravel-toggl",
     "description": "Laravel 5 service provider for Toggl, the time tracker app",
-    "keywords": ["laravel", "insightly", "laravel 5", "laravel 5.2", "laravel 5.3"],
+    "keywords": ["laravel", "toggl", "laravel 5", "laravel 5.2", "laravel 5.3"],
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.5.9",
