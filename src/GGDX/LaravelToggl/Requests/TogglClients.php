@@ -1,6 +1,5 @@
 <?php namespace GGDX\LaravelToggl\Requests;
 
-use Exception;
 use GGDX\LaravelToggl\TogglRequest;
 
 class TogglClients implements TogglRequestInterface{
