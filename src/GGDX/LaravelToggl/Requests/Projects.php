@@ -15,7 +15,6 @@ class Projects implements TogglRequestInterface{
     public $billable;
     public $auto_estimates;
     public $estimated_hours;
-    public $at;
     public $color;
     public $rate;
 
@@ -81,6 +80,103 @@ class Projects implements TogglRequestInterface{
 
         return $this;
     }
+
+    public function is_private()
+    {
+        return $this->is_private;
+    }
+
+    public function set_private($data = false)
+    {
+        $this->is_private = !$data ? false : true;
+
+        return $this;
+    }
+
+    public function is_template()
+    {
+        return $this->template;
+    }
+
+    public function set_template($data = false)
+    {
+        $this->template = !$data ? false : true;
+
+        return $this;
+    }
+
+    public function get_template_id()
+    {
+        return $this->template_id;
+    }
+
+    public function set_template_id($data)
+    {
+        $this->template_id = $data;
+    }
+
+    public function is_billable()
+    {
+        return $this->billable;
+    }
+
+    public function set_billable($data = true)
+    {
+        $this->billable = $data === true ? true : false;
+
+        return $this;
+    }
+
+    public function is_auto_estimate()
+    {
+        return $this->auto_estimates;
+    }
+
+    public function set_auto_estimate($data = false)
+    {
+        $this->auto_estimates = !$data ? false : true;
+
+        return $this;
+    }
+
+    public function get_estimated_hours()
+    {
+        return !$this->auto_estimates ? false : (int) $this->estimated_hours;
+    }
+
+    public function set_estimated_hours($data)
+    {
+        if($this->auto_estimates !== false){
+            $this->estimated_hours = (int) $data;
+        }
+
+        return $this;
+    }
+
+    public function get_color()
+    {
+        return $this->color;
+    }
+
+    public function set_color($data)
+    {
+        $this->color = $data;
+
+        return $this;
+    }
+
+    public function get_rate()
+    {
+        return $this->rate;
+    }
+
+    public function set_rate($data)
+    {
+        $this->rate = $data;
+
+        return $this;
+    }
+
 
 
     /**
