@@ -143,7 +143,6 @@ class TogglRequest{
      */
     private function request($method, $url, $data)
     {
-        //dd($data);
         $client = new \GuzzleHttp\Client([
             'base_uri' => $this->base_url,
             'headers' => [
@@ -175,7 +174,7 @@ class TogglRequest{
             return $this->errors;
         }
 
-        return $response;
+        return json_decode($response->getBody()->getContents());
 
     }
 
