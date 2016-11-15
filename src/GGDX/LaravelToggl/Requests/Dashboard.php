@@ -18,7 +18,7 @@ class Dashboard{
 
     public function set_workspace_id($data)
     {
-        return !$data ? null : $data;
+        return !$data ? config('toggl.default_workspace') : $data;
     }
 
 

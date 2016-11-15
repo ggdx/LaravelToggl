@@ -24,7 +24,7 @@ class ProjectUser implements TogglRequestInterface{
 
     public function set_workspace_id($data)
     {
-        return !$data ? null : $data;
+        return !$data ? config('toggl.default_workspace') : $data;
     }
 
     public function get_project_user_id()

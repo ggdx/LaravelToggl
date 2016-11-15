@@ -1,7 +1,9 @@
 <?php
 return [
 
-        // All you need is an API key.
 
-        'api_key' => env('TOGGL_KEY'),
+    'api_key' => env('TOGGL_KEY'),
+
+
+    'default_workspace' => env('TOGGL_DEFAULT_WORKSPACE'),
 ];
