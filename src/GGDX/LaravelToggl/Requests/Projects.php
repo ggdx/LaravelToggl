@@ -278,7 +278,7 @@ class Projects implements TogglRequestInterface{
 
 
     /**
-     * Get Project Users
+     * Get Project Tasks
      *
      * @param int $pid - Project ID (can be set via set_project_id() or as a function variable).
      * @return Object
