@@ -8,13 +8,13 @@ class Projects implements TogglRequestInterface{
     public $wid; // Workspace ID
     public $cid; // Client ID
     public $pid; // Project ID
-    public $active;
-    public $is_private;
-    public $template;
+    public $active = true;
+    public $is_private = true;
+    public $template = true;
     public $template_id;
-    public $billable;
-    public $auto_estimates;
-    public $estimated_hours;
+    public $billable = true; // Toggl Pro
+    public $auto_estimates = false; // Toggl Pro
+    public $estimated_hours; // Toggl Pro
     public $color;
     public $rate;
 
@@ -194,7 +194,7 @@ class Projects implements TogglRequestInterface{
         }
 
         if($this->pid == null){
-            throw new \Exception('You need to specify a Project ID');
+            return $request->get('/api/v8/workspaces/'.$this->wid.'/projects');
         }
 
         return $request->get('/api/v8/projects/'.$this->pid);
@@ -216,6 +216,7 @@ class Projects implements TogglRequestInterface{
         }
         $request =  new TogglRequest(config('toggl.api_key'));
         $data = $this->prepare_data();
+        //dd($data);
         return $request->post('/api/v8/projects', ['project' => $data]);
     }
 
@@ -240,7 +241,7 @@ class Projects implements TogglRequestInterface{
      * Delete project
      *
      *
-     * @return  Mixed - null success / array error
+     * @return  Mixed - null (No record to delete) / array Deleted PID
      */
     public function delete($pid = false)
     {
@@ -248,8 +249,56 @@ class Projects implements TogglRequestInterface{
         if($pid){
             $this->set_project_id($pid);
         }
-        return $request->delete('/api/v8/clients/'.$this->pid);
+        return $request->delete('/api/v8/projects/'.$this->pid);
     }
+
+
+
+    /**
+     * Get Project Users
+     *
+     * @param int $pid - Project ID (can be set via set_project_id() or as a function variable).
+     * @return Object
+     */
+    public function get_users($pid = false)
+    {
+        $request =  new TogglRequest(config('toggl.api_key'));
+
+        if($pid){
+            $this->set_project_id($pid);
+        }
+
+        if($this->pid == null){
+            throw new \Exception('You need to specify a Project ID');
+        }
+
+        return $request->get('/api/v8/projects/'.$this->pid.'/project_users');
+    }
+
+
+
+    /**
+     * Get Project Users
+     *
+     * @param int $pid - Project ID (can be set via set_project_id() or as a function variable).
+     * @return Object
+     */
+    public function get_tasks($pid = false)
+    {
+        $request =  new TogglRequest(config('toggl.api_key'));
+
+        if($pid){
+            $this->set_project_id($pid);
+        }
+
+        if($this->pid == null){
+            throw new \Exception('You need to specify a Project ID');
+        }
+
+        return $request->get('/api/v8/projects/'.$this->pid.'/tasks');
+    }
+
+
 
 
 
