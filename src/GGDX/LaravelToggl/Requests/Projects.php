@@ -2,52 +2,26 @@
 
 use GGDX\LaravelToggl\TogglRequest;
 
-class TogglClients implements TogglRequestInterface{
+class Projects implements TogglRequestInterface{
 
-    public $cid;
-    public $name;
-    public $notes;
-    public $wid;
+    public $name; // Project Name
+    public $wid; // Workspace ID
+    public $cid; // Client ID
+    public $pid; // Project ID
+    public $active;
+    public $is_private;
+    public $template;
+    public $template_id;
+    public $billable;
+    public $auto_estimates;
+    public $estimated_hours;
+    public $at;
+    public $color;
+    public $rate;
 
     public function __construct($wid = false)
     {
         $this->wid = $this->set_workspace_id($wid);
-    }
-
-    public function get_client_id()
-    {
-        return $this->cid;
-    }
-
-    public function set_client_id($data = null)
-    {
-        $this->cid = $data;
-
-        return $this;
-    }
-
-    public function get_client_name()
-    {
-        return $this->name;
-    }
-
-    public function set_client_name($data = null)
-    {
-        $this->name = $data;
-
-        return $this;
-    }
-
-    public function get_note()
-    {
-        return $this->notes;
-    }
-
-    public function set_note($data = null)
-    {
-        $this->notes = $data;
-
-        return $this;
     }
 
     public function get_workspace_id()
@@ -60,9 +34,57 @@ class TogglClients implements TogglRequestInterface{
         return !$data ? null : $data;
     }
 
+    public function get_name()
+    {
+        return $this->wid;
+    }
+
+    public function set_name($data)
+    {
+        $this->name = $data;
+
+        return $this;
+    }
+
+    public function get_client_id()
+    {
+        return $this->cid;
+    }
+
+    public function set_client_id($data)
+    {
+        $this->cid = $data;
+
+        return $this;
+    }
+
+    public function get_project_id()
+    {
+        return $this->pid;
+    }
+
+    public function set_project_id($data)
+    {
+        $this->pid = $data;
+
+        return $this;
+    }
+
+    public function is_active()
+    {
+        return $this->active;
+    }
+
+    public function set_active($data = true)
+    {
+        $this->active = $data === true ? true : false;
+
+        return $this;
+    }
+
 
     /**
-     * Get Clients
+     * Get Projects
      *
      * Returns either all clients or a single client object.
      * NOTE - Only shows users visible to the user owning the API key
@@ -70,31 +92,14 @@ class TogglClients implements TogglRequestInterface{
      * @param int $cid (OPTIONAL)- Get client by ID.
      * @return Object
      */
-    public function get($cid = false)
+    public function get($pid = false)
     {
         $request =  new TogglRequest(config('toggl.api_key'));
-        if($cid){
-            $this->set_client_id($cid);
+        if($pid){
+            $this->set_client_id($pid);
         }
 
-        return $this->cid != null ? $request->get('/api/v8/clients/'.$this->cid) : $request->get('/api/v8/clients');
-    }
-
-    /**
-     * Get Clients' Projects
-     *
-     * Returns either all projects belonging to client.
-     *
-     * @param int $cid - Client ID.
-     * @return Object
-     */
-    public function get_client_projects($cid = false)
-    {
-        $request =  new TogglRequest(config('toggl.api_key'));
-        if($cid){
-            $this->set_client_id($cid);
-        }
-        return $request->get('/api/v8/clients/'.$this->cid.'/projects');
+        return $this->pid != null ? $request->get('/api/v8/projects/'.$this->pid) : $request->get('/api/v8/projects');
     }
 
 
@@ -106,14 +111,14 @@ class TogglClients implements TogglRequestInterface{
      */
     public function create()
     {
-        if($this->cid == null){
-            unset($this->cid);
+        if($this->pid == null){
+            unset($this->pid);
         } else {
             return $this->update();
         }
         $request =  new TogglRequest(config('toggl.api_key'));
         $data = $this->prepare_data();
-        return $request->post('/api/v8/clients', ['client' => $data]);
+        return $request->post('/api/v8/projects', ['project' => $data]);
     }
 
     /**
@@ -124,12 +129,12 @@ class TogglClients implements TogglRequestInterface{
      */
     public function update()
     {
-        if($this->cid == null){
+        if($this->pid == null){
             return $this->create();
         }
         $request =  new TogglRequest(config('toggl.api_key'));
         $data = $this->prepare_data();
-        return $request->put('/api/v8/clients/'.$this->cid, ['client' => $data]);
+        return $request->put('/api/v8/projects/'.$this->pid, ['project' => $data]);
     }
 
 
@@ -145,7 +150,7 @@ class TogglClients implements TogglRequestInterface{
         if($data){
             $this->set_client_id($data);
         }
-        return $request->delete('/api/v8/clients/'.$this->cid);
+        return $request->delete('/api/v8/clients/'.$this->pid);
     }
 
 

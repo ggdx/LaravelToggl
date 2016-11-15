@@ -2,7 +2,7 @@
 
 use GGDX\LaravelToggl\TogglRequest;
 
-class TogglDashboard{
+class Dashboard{
 
     public $wid;
 
