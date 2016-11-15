@@ -16,9 +16,9 @@ class Dashboard{
         return $this->wid;
     }
 
-    public function set_workspace_id($data)
+    public function set_workspace_id($wid)
     {
-        return !$data ? config('toggl.default_workspace') : $data;
+        return !$wid ? config('toggl.default_workspace') : $wid;
     }
 
 

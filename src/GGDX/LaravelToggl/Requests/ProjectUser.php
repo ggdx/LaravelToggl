@@ -22,9 +22,9 @@ class ProjectUser implements TogglRequestInterface{
         return $this->wid;
     }
 
-    public function set_workspace_id($data)
+    public function set_workspace_id($wid)
     {
-        return !$data ? config('toggl.default_workspace') : $data;
+        return !$wid ? config('toggl.default_workspace') : $wid;
     }
 
     public function get_project_user_id()
@@ -32,9 +32,9 @@ class ProjectUser implements TogglRequestInterface{
         return $this->id;
     }
 
-    public function set_project_user_id($data)
+    public function set_project_user_id($id)
     {
-        $this->id = $data;
+        $this->id = $id;
 
         return $this;
     }
@@ -44,9 +44,9 @@ class ProjectUser implements TogglRequestInterface{
         return $this->pid;
     }
 
-    public function set_project_id($data)
+    public function set_project_id($pid)
     {
-        $this->pid = $data;
+        $this->pid = $pid;
 
         return $this;
     }
@@ -56,9 +56,9 @@ class ProjectUser implements TogglRequestInterface{
         return $this->uid;
     }
 
-    public function set_user_id($data)
+    public function set_user_id($uid)
     {
-        $this->uid = $data;
+        $this->uid = $uid;
 
         return $this;
     }
@@ -68,21 +68,21 @@ class ProjectUser implements TogglRequestInterface{
         return $this->manager;
     }
 
-    public function set_manager($data = false)
+    public function set_manager($manager = false)
     {
-        $this->manager = !$data ? false : true;
+        $this->manager = !$manager ? false : true;
 
         return $this;
     }
 
     public function get_rate()
     {
-        return $this->uid;
+        return $this->rate;
     }
 
-    public function set_rate($data)
+    public function set_rate($rate)
     {
-        $this->rate = $data;
+        $this->rate = $rate;
 
         return $this;
     }
@@ -102,10 +102,13 @@ class ProjectUser implements TogglRequestInterface{
         if($pid){
             $this->set_project_id($pid);
         }
+
         if($this->pid == null){
             throw new \Exception('You must specify a Project ID');
         }
+
         $project = new Projects($this->wid);
+
         return $project->get_users($this->pid);
     }
 
@@ -123,9 +126,11 @@ class ProjectUser implements TogglRequestInterface{
         } else {
             return $this->update();
         }
+
         $request =  new TogglRequest(config('toggl.api_key'));
+
         $data = $this->prepare_data();
-        //dd($data);
+
         return $request->post('/api/v8/project_users', ['project_user' => $data]);
     }
 
@@ -140,8 +145,11 @@ class ProjectUser implements TogglRequestInterface{
         if($this->id == null){
             return $this->create();
         }
+
         $request =  new TogglRequest(config('toggl.api_key'));
+
         $data = $this->prepare_data();
+
         return $request->put('/api/v8/project_users/'.$this->id, ['project_user' => $data]);
     }
 
@@ -162,10 +170,6 @@ class ProjectUser implements TogglRequestInterface{
 
         return $request->delete('/api/v8/project_users/'.$this->id);
     }
-
-
-
-
 
 
 

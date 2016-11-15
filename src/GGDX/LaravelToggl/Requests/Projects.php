@@ -28,19 +28,19 @@ class Projects implements TogglRequestInterface{
         return $this->wid;
     }
 
-    public function set_workspace_id($data)
+    public function set_workspace_id($wid)
     {
-        return !$data ? config('toggl.default_workspace') : $data;
+        return !$wid ? config('toggl.default_workspace') : $wid;
     }
 
     public function get_name()
     {
-        return $this->wid;
+        return $this->name;
     }
 
-    public function set_name($data)
+    public function set_name($name)
     {
-        $this->name = $data;
+        $this->name = $name;
 
         return $this;
     }
@@ -50,9 +50,9 @@ class Projects implements TogglRequestInterface{
         return $this->cid;
     }
 
-    public function set_client_id($data)
+    public function set_client_id($cid)
     {
-        $this->cid = $data;
+        $this->cid = $cid;
 
         return $this;
     }
@@ -62,9 +62,9 @@ class Projects implements TogglRequestInterface{
         return $this->pid;
     }
 
-    public function set_project_id($data)
+    public function set_project_id($pid)
     {
-        $this->pid = $data;
+        $this->pid = $pid;
 
         return $this;
     }
@@ -74,9 +74,9 @@ class Projects implements TogglRequestInterface{
         return $this->active;
     }
 
-    public function set_active($data = true)
+    public function set_active($active = true)
     {
-        $this->active = $data === true ? true : false;
+        $this->active = $active === true ? true : false;
 
         return $this;
     }
@@ -86,9 +86,9 @@ class Projects implements TogglRequestInterface{
         return $this->is_private;
     }
 
-    public function set_private($data = false)
+    public function set_private($private = false)
     {
-        $this->is_private = !$data ? false : true;
+        $this->is_private = !$private ? false : true;
 
         return $this;
     }
@@ -98,9 +98,9 @@ class Projects implements TogglRequestInterface{
         return $this->template;
     }
 
-    public function set_template($data = false)
+    public function set_template($template = false)
     {
-        $this->template = !$data ? false : true;
+        $this->template = !$template ? false : true;
 
         return $this;
     }
@@ -110,9 +110,9 @@ class Projects implements TogglRequestInterface{
         return $this->template_id;
     }
 
-    public function set_template_id($data)
+    public function set_template_id($tid)
     {
-        $this->template_id = $data;
+        $this->template_id = $tid;
     }
 
     public function is_billable()
@@ -120,9 +120,9 @@ class Projects implements TogglRequestInterface{
         return $this->billable;
     }
 
-    public function set_billable($data = true)
+    public function set_billable($billable = true)
     {
-        $this->billable = $data === true ? true : false;
+        $this->billable = $billable === true ? true : false;
 
         return $this;
     }
@@ -132,9 +132,9 @@ class Projects implements TogglRequestInterface{
         return $this->auto_estimates;
     }
 
-    public function set_auto_estimate($data = false)
+    public function set_auto_estimate($auto = false)
     {
-        $this->auto_estimates = !$data ? false : true;
+        $this->auto_estimates = !$auto ? false : true;
 
         return $this;
     }
@@ -144,10 +144,10 @@ class Projects implements TogglRequestInterface{
         return !$this->auto_estimates ? false : (int) $this->estimated_hours;
     }
 
-    public function set_estimated_hours($data)
+    public function set_estimated_hours($eh)
     {
-        if($this->auto_estimates !== false){
-            $this->estimated_hours = (int) $data;
+        if($this->estimated_hours !== false){
+            $this->estimated_hours = (int) $eh;
         }
 
         return $this;
@@ -158,9 +158,9 @@ class Projects implements TogglRequestInterface{
         return $this->color;
     }
 
-    public function set_color($data)
+    public function set_color($color)
     {
-        $this->color = $data;
+        $this->color = $color;
 
         return $this;
     }
@@ -170,9 +170,9 @@ class Projects implements TogglRequestInterface{
         return $this->rate;
     }
 
-    public function set_rate($data)
+    public function set_rate($rate)
     {
-        $this->rate = $data;
+        $this->rate = $rate;
 
         return $this;
     }
@@ -214,9 +214,11 @@ class Projects implements TogglRequestInterface{
         } else {
             return $this->update();
         }
+
         $request =  new TogglRequest(config('toggl.api_key'));
+
         $data = $this->prepare_data();
-        //dd($data);
+
         return $request->post('/api/v8/projects', ['project' => $data]);
     }
 
@@ -231,8 +233,11 @@ class Projects implements TogglRequestInterface{
         if($this->pid == null){
             return $this->create();
         }
+
         $request =  new TogglRequest(config('toggl.api_key'));
+
         $data = $this->prepare_data();
+
         return $request->put('/api/v8/projects/'.$this->pid, ['project' => $data]);
     }
 
@@ -246,9 +251,11 @@ class Projects implements TogglRequestInterface{
     public function delete($pid = false)
     {
         $request =  new TogglRequest(config('toggl.api_key'));
+        
         if($pid){
             $this->set_project_id($pid);
         }
+        
         return $request->delete('/api/v8/projects/'.$this->pid);
     }
 

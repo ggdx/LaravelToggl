@@ -19,9 +19,9 @@ class Clients implements TogglRequestInterface{
         return $this->cid;
     }
 
-    public function set_client_id($data = null)
+    public function set_client_id($cid = null)
     {
-        $this->cid = $data;
+        $this->cid = $cid;
 
         return $this;
     }
@@ -31,9 +31,9 @@ class Clients implements TogglRequestInterface{
         return $this->name;
     }
 
-    public function set_client_name($data = null)
+    public function set_client_name($name = null)
     {
-        $this->name = $data;
+        $this->name = $name;
 
         return $this;
     }
@@ -43,9 +43,9 @@ class Clients implements TogglRequestInterface{
         return $this->notes;
     }
 
-    public function set_note($data = null)
+    public function set_note($note = null)
     {
-        $this->notes = $data;
+        $this->notes = $note;
 
         return $this;
     }
@@ -55,9 +55,9 @@ class Clients implements TogglRequestInterface{
         return $this->wid;
     }
 
-    public function set_workspace_id($data)
+    public function set_workspace_id($wid)
     {
-        return !$data ? config('toggl.default_workspace') : $data;
+        return !$wid ? config('toggl.default_workspace') : $wid;
     }
 
 
@@ -111,8 +111,11 @@ class Clients implements TogglRequestInterface{
         } else {
             return $this->update();
         }
+
         $request =  new TogglRequest(config('toggl.api_key'));
+
         $data = $this->prepare_data();
+
         return $request->post('/api/v8/clients', ['client' => $data]);
     }
 
@@ -127,8 +130,11 @@ class Clients implements TogglRequestInterface{
         if($this->cid == null){
             return $this->create();
         }
+
         $request =  new TogglRequest(config('toggl.api_key'));
+
         $data = $this->prepare_data();
+
         return $request->put('/api/v8/clients/'.$this->cid, ['client' => $data]);
     }
 
@@ -142,9 +148,11 @@ class Clients implements TogglRequestInterface{
     public function delete($data = false)
     {
         $request =  new TogglRequest(config('toggl.api_key'));
+        
         if($data){
             $this->set_client_id($data);
         }
+        
         return $request->delete('/api/v8/clients/'.$this->cid);
     }
 
