@@ -173,7 +173,6 @@ class TogglRequest{
             $this->errors = [$e->getMessage()];
             return $this->errors;
         }
-
         return json_decode($response->getBody()->getContents());
 
     }

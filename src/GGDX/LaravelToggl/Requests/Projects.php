@@ -182,25 +182,27 @@ class Projects implements TogglRequestInterface{
     /**
      * Get Projects
      *
-     * Returns either all clients or a single client object.
-     * NOTE - Only shows users visible to the user owning the API key
-     *
-     * @param int $cid (OPTIONAL)- Get client by ID.
+     * @param int $pid - Project ID.
      * @return Object
      */
     public function get($pid = false)
     {
         $request =  new TogglRequest(config('toggl.api_key'));
+
         if($pid){
-            $this->set_client_id($pid);
+            $this->set_project_id($pid);
         }
 
-        return $this->pid != null ? $request->get('/api/v8/projects/'.$this->pid) : $request->get('/api/v8/projects');
+        if($this->pid == null){
+            throw new \Exception('You need to specify a Project ID');
+        }
+
+        return $request->get('/api/v8/projects/'.$this->pid);
     }
 
 
     /**
-     * Create new client
+     * Create new project
      *
      *
      * @return Object
@@ -218,7 +220,7 @@ class Projects implements TogglRequestInterface{
     }
 
     /**
-     * Update client
+     * Update project
      *
      *
      * @return Object
@@ -235,16 +237,16 @@ class Projects implements TogglRequestInterface{
 
 
     /**
-     * Delete client
+     * Delete project
      *
      *
      * @return  Mixed - null success / array error
      */
-    public function delete($data = false)
+    public function delete($pid = false)
     {
         $request =  new TogglRequest(config('toggl.api_key'));
-        if($data){
-            $this->set_client_id($data);
+        if($pid){
+            $this->set_project_id($pid);
         }
         return $request->delete('/api/v8/clients/'.$this->pid);
     }
