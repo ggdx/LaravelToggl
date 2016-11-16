@@ -11,7 +11,7 @@ class Clients implements TogglRequestInterface{
 
     public function __construct($wid = false)
     {
-        $this->wid = $this->set_workspace_id($wid);
+        $this->set_workspace_id($wid);
     }
 
     public function get_client_id()
@@ -57,7 +57,9 @@ class Clients implements TogglRequestInterface{
 
     public function set_workspace_id($wid)
     {
-        return !$wid ? config('toggl.default_workspace') : $wid;
+        $this->wid = !$wid ? config('toggl.default_workspace') : $wid;
+
+        return $this;
     }
 
 
@@ -148,7 +150,7 @@ class Clients implements TogglRequestInterface{
     public function delete()
     {
         $request =  new TogglRequest(config('toggl.api_key'));
-        
+
         if($this->cid == null){
             throw new \Exception('You must supply a Client ID');
         }

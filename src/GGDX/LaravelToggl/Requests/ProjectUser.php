@@ -14,7 +14,7 @@ class ProjectUser implements TogglRequestInterface{
 
     public function __construct($wid = false)
     {
-        $this->wid = $this->set_workspace_id($wid);
+        $this->set_workspace_id($wid);
     }
 
     public function get_workspace_id()
@@ -24,7 +24,9 @@ class ProjectUser implements TogglRequestInterface{
 
     public function set_workspace_id($wid)
     {
-        return !$wid ? config('toggl.default_workspace') : $wid;
+        $this->wid = !$wid ? config('toggl.default_workspace') : $wid;
+
+        return $this;
     }
 
     public function get_project_user_id()

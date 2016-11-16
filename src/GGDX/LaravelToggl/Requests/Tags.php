@@ -10,7 +10,7 @@ class Tags implements TogglRequestInterface{
 
     public function __construct($wid = false)
     {
-        $this->wid = $this->set_workspace_id($wid);
+        $this->set_workspace_id($wid);
     }
 
     public function get_workspace_id()
@@ -20,7 +20,9 @@ class Tags implements TogglRequestInterface{
 
     public function set_workspace_id($wid)
     {
-        return !$wid ? config('toggl.default_workspace') : $wid;
+        $this->wid = !$wid ? config('toggl.default_workspace') : $wid;
+
+        return $this;
     }
 
     public function get_id()
@@ -111,7 +113,7 @@ class Tags implements TogglRequestInterface{
 
 
     /**
-     * Delete project user
+     * Delete tag
      *
      *
      * @return  Mixed - null (No record to delete) / array Deleted PID
