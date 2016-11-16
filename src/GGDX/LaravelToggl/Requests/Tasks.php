@@ -32,7 +32,7 @@ class Tasks implements TogglRequestInterface{
 
     public function get_id()
     {
-        return $this->pid;
+        return $this->id;
     }
 
     public function set_id($id)
@@ -134,7 +134,7 @@ class Tasks implements TogglRequestInterface{
             throw new \Exception('You must supply a Task ID');
         }
 
-        return return $request->post('/api/v8/tasks/'.$this->id);
+        return $request->get('/api/v8/tasks/'.$this->id);
     }
 
 
