@@ -4,52 +4,35 @@ use GGDX\LaravelToggl\TogglRequest;
 
 class Tags implements TogglRequestInterface{
 
-    public $id; // Tag ID
-    public $wid; // Workspace ID
+    /**
+     * Tag ID
+     *
+     * NOTE: You cannot update and save this property.
+     *
+     * @var int
+     */
+    public $id;
+
+    /**
+     * Workspace ID
+     *
+     * @var int
+     */
+    public $wid;
+
+    /**
+     * Tag name
+     *
+     * @var string
+     */
     public $name;
+
+
 
     public function __construct($wid = false)
     {
         $this->set_workspace_id($wid);
     }
-
-    public function get_workspace_id()
-    {
-        return $this->wid;
-    }
-
-    public function set_workspace_id($wid)
-    {
-        $this->wid = !$wid ? config('toggl.default_workspace') : $wid;
-
-        return $this;
-    }
-
-    public function get_id()
-    {
-        return $this->id;
-    }
-
-    public function set_id($id)
-    {
-        $this->id = $data;
-        return $this;
-    }
-
-    public function get_tag()
-    {
-        return $this->name;
-    }
-
-    public function set_tag($name)
-    {
-        $this->name = $data;
-
-        return $this;
-    }
-
-
-
 
 
     /**
@@ -131,7 +114,43 @@ class Tags implements TogglRequestInterface{
 
 
 
+    /*
+    * Getters & Setters
+    */
+    public function get_workspace_id()
+    {
+        return $this->wid;
+    }
 
+    public function set_workspace_id($wid)
+    {
+        $this->wid = !$wid ? config('toggl.default_workspace') : $wid;
+
+        return $this;
+    }
+
+    public function get_id()
+    {
+        return $this->id;
+    }
+
+    public function set_id($id)
+    {
+        $this->id = $data;
+        return $this;
+    }
+
+    public function get_tag()
+    {
+        return $this->name;
+    }
+
+    public function set_tag($name)
+    {
+        $this->name = $data;
+
+        return $this;
+    }
 
 
 

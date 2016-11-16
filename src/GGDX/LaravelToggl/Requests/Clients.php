@@ -4,63 +4,33 @@ use GGDX\LaravelToggl\TogglRequest;
 
 class Clients implements TogglRequestInterface{
 
+    /**
+     * Client ID
+     *
+     * @var int
+     */
     public $cid;
+
+    /**
+     * Client name
+     *
+     * @var string
+     */
     public $name;
+
+    /**
+     * Client note
+     *
+     * @var string
+     */
     public $notes;
+
+    /**
+     * Workspace ID
+     *
+     * @var int
+     */
     public $wid;
-
-    public function __construct($wid = false)
-    {
-        $this->set_workspace_id($wid);
-    }
-
-    public function get_client_id()
-    {
-        return $this->cid;
-    }
-
-    public function set_client_id($cid = null)
-    {
-        $this->cid = $cid;
-
-        return $this;
-    }
-
-    public function get_client_name()
-    {
-        return $this->name;
-    }
-
-    public function set_client_name($name = null)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function get_note()
-    {
-        return $this->notes;
-    }
-
-    public function set_note($note = null)
-    {
-        $this->notes = $note;
-
-        return $this;
-    }
-
-    public function get_workspace_id()
-    {
-        return $this->wid;
-    }
-
-    public function set_workspace_id($wid)
-    {
-        $this->wid = !$wid ? config('toggl.default_workspace') : $wid;
-
-        return $this;
-    }
 
 
     /**
@@ -159,7 +129,60 @@ class Clients implements TogglRequestInterface{
     }
 
 
+    // Getters & Setters
 
+    public function __construct($wid = false)
+    {
+        $this->set_workspace_id($wid);
+    }
+
+    public function get_client_id()
+    {
+        return $this->cid;
+    }
+
+    public function set_client_id($cid = null)
+    {
+        $this->cid = $cid;
+
+        return $this;
+    }
+
+    public function get_client_name()
+    {
+        return $this->name;
+    }
+
+    public function set_client_name($name = null)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function get_note()
+    {
+        return $this->notes;
+    }
+
+    public function set_note($note = null)
+    {
+        $this->notes = $note;
+
+        return $this;
+    }
+
+    public function get_workspace_id()
+    {
+        return $this->wid;
+    }
+
+    public function set_workspace_id($wid)
+    {
+        $this->wid = !$wid ? config('toggl.default_workspace') : $wid;
+
+        return $this;
+    }
 
     // For some retarded reason that I will never understand, converting some objects to array results in * being placed inside array keys.
 

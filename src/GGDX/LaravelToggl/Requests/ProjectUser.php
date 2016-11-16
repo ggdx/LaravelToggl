@@ -4,89 +4,58 @@ use GGDX\LaravelToggl\TogglRequest;
 
 class ProjectUser implements TogglRequestInterface{
 
-    public $id; // Project User ID
-    public $pid; // Project ID
-    public $uid; // User ID
-    public $wid; // Workspace ID
+    /**
+     * Project User ID
+     *
+     * NOTE: This IS NOT the User ID ($this->uid) or Project ID ($this->pid). This is the relational ID.
+     * NOTE: You cannot change and save this property.
+     *
+     * @var int
+     */
+    public $id;
+
+    /**
+     * Project ID
+     *
+     * @var int - REQUIRED
+     */
+    public $pid;
+
+    /**
+     * User ID
+     *
+     * @var int - REQUIRED
+     */
+    public $uid;
+
+    /**
+     * Workspace ID
+     *
+     * @var int
+     */
+    public $wid;
+
+    /**
+     * Is this project user a manager of the project?
+     *
+     * @var bool
+     */
     public $manager = false;
-    public $rate; // Toggl Pro
+
+    /**
+     * Hourly rate of project user
+     *
+     * TOGGL PRO ONLY
+     *
+     * @var float
+     */
+
+    public $rate;
 
 
     public function __construct($wid = false)
     {
         $this->set_workspace_id($wid);
-    }
-
-    public function get_workspace_id()
-    {
-        return $this->wid;
-    }
-
-    public function set_workspace_id($wid)
-    {
-        $this->wid = !$wid ? config('toggl.default_workspace') : $wid;
-
-        return $this;
-    }
-
-    public function get_project_user_id()
-    {
-        return $this->id;
-    }
-
-    public function set_project_user_id($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    public function get_project_id()
-    {
-        return $this->pid;
-    }
-
-    public function set_project_id($pid)
-    {
-        $this->pid = $pid;
-
-        return $this;
-    }
-
-    public function get_user_id()
-    {
-        return $this->uid;
-    }
-
-    public function set_user_id($uid)
-    {
-        $this->uid = $uid;
-
-        return $this;
-    }
-
-    public function is_manager()
-    {
-        return $this->manager;
-    }
-
-    public function set_manager($manager = false)
-    {
-        $this->manager = !$manager ? false : true;
-
-        return $this;
-    }
-
-    public function get_rate()
-    {
-        return $this->rate;
-    }
-
-    public function set_rate($rate)
-    {
-        $this->rate = $rate;
-
-        return $this;
     }
 
 
@@ -174,6 +143,85 @@ class ProjectUser implements TogglRequestInterface{
     }
 
 
+
+
+
+    /*
+    *   Getters & Setters
+    */
+
+
+    public function get_workspace_id()
+    {
+        return $this->wid;
+    }
+
+    public function set_workspace_id($wid)
+    {
+        $this->wid = !$wid ? config('toggl.default_workspace') : $wid;
+
+        return $this;
+    }
+
+    public function get_project_user_id()
+    {
+        return $this->id;
+    }
+
+    public function set_project_user_id($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function get_project_id()
+    {
+        return $this->pid;
+    }
+
+    public function set_project_id($pid)
+    {
+        $this->pid = $pid;
+
+        return $this;
+    }
+
+    public function get_user_id()
+    {
+        return $this->uid;
+    }
+
+    public function set_user_id($uid)
+    {
+        $this->uid = $uid;
+
+        return $this;
+    }
+
+    public function is_manager()
+    {
+        return $this->manager;
+    }
+
+    public function set_manager($manager = false)
+    {
+        $this->manager = !$manager ? false : true;
+
+        return $this;
+    }
+
+    public function get_rate()
+    {
+        return $this->rate;
+    }
+
+    public function set_rate($rate)
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
 
     // For some retarded reason that I will never understand, converting some objects to array results in * being placed inside array keys.
 
