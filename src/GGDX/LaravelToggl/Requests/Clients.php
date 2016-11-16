@@ -145,14 +145,14 @@ class Clients implements TogglRequestInterface{
      *
      * @return  Mixed - null success / array error
      */
-    public function delete($data = false)
+    public function delete()
     {
         $request =  new TogglRequest(config('toggl.api_key'));
         
-        if($data){
-            $this->set_client_id($data);
+        if($this->cid == null){
+            throw new \Exception('You must supply a Client ID');
         }
-        
+
         return $request->delete('/api/v8/clients/'.$this->cid);
     }
 

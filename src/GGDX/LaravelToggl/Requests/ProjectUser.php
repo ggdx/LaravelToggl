@@ -160,12 +160,12 @@ class ProjectUser implements TogglRequestInterface{
      *
      * @return  Mixed - null (No record to delete) / array Deleted PID
      */
-    public function delete($id = false)
+    public function delete()
     {
         $request =  new TogglRequest(config('toggl.api_key'));
 
-        if($id){
-            $this->set_project_user_id($id);
+        if($this->id == null){
+            throw new \Exception('You must supply a Project User ID');
         }
 
         return $request->delete('/api/v8/project_users/'.$this->id);

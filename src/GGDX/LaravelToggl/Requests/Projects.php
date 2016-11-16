@@ -248,14 +248,14 @@ class Projects implements TogglRequestInterface{
      *
      * @return  Mixed - null (No record to delete) / array Deleted PID
      */
-    public function delete($pid = false)
+    public function delete()
     {
         $request =  new TogglRequest(config('toggl.api_key'));
-        
-        if($pid){
-            $this->set_project_id($pid);
+
+        if($this->pid == null){
+            throw new \Exception('You must supply a Project ID');
         }
-        
+
         return $request->delete('/api/v8/projects/'.$this->pid);
     }
 
