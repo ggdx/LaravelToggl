@@ -136,7 +136,7 @@ class Tags implements TogglRequestInterface{
 
     public function set_id($id)
     {
-        $this->id = $data;
+        $this->id = $id;
         return $this;
     }
 
