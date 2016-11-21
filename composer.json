@@ -1,12 +1,11 @@
 {
     "name": "ggdx/laravel-toggl",
     "description": "Laravel 5 service provider for Toggl, the time tracker app",
-    "keywords": ["laravel", "toggl", "laravel 5", "laravel 5.2", "laravel 5.3"],
-    "minimum-stability": "stable",
+    "keywords": ["laravel", "toggl", "laravel 5", "laravel 5.2", "laravel 5.3", "timetracker"],
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.9",
-        "guzzlehttp/guzzle": "^6.2",
-        "symfony/psr-http-message-bridge": "0.2"
+        "ggdx/php-toggl": "dev-master"
     },
     "license": "MIT",
     "authors": [
