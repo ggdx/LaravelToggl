@@ -4,21 +4,65 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c988c51cd4068af4a0c1a3192bf6bbae",
-    "content-hash": "da91d56eba6419819a3dc5ed6d303fef",
+    "hash": "c866a780edb37131668890dba300ece7",
+    "content-hash": "f0bf55b5bb792e12633a467b4f5cc47a",
     "packages": [
+        {
+            "name": "ggdx/php-toggl",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ggdx/php-toggl.git",
+                "reference": "81b170fc8dcff95388e9280212806c71eb315d25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ggdx/php-toggl/zipball/81b170fc8dcff95388e9280212806c71eb315d25",
+                "reference": "81b170fc8dcff95388e9280212806c71eb315d25",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "php": ">=5.5.9",
+                "symfony/psr-http-message-bridge": "0.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GGDX\\PhpToggl\\": "src/GGDX/PhpToggl/Traits"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel White",
+                    "email": "hi@dwhite.me"
+                }
+            ],
+            "description": "PHP SDK Toggl, the time tracker app",
+            "keywords": [
+                "php",
+                "productivity",
+                "timetracker",
+                "toggl"
+            ],
+            "time": "2016-11-18 00:45:30"
+        },
         {
             "name": "guzzlehttp/guzzle",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "4d22214bbee8b40e3847c5fb65271925211e44b6"
+                "reference": "471026d23a14f6eadd0147eb5697f48ebe6adec8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/4d22214bbee8b40e3847c5fb65271925211e44b6",
-                "reference": "4d22214bbee8b40e3847c5fb65271925211e44b6",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/471026d23a14f6eadd0147eb5697f48ebe6adec8",
+                "reference": "471026d23a14f6eadd0147eb5697f48ebe6adec8",
                 "shasum": ""
             },
             "require": {
@@ -67,7 +111,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2016-11-07 08:22:43"
+            "time": "2016-11-15 18:22:40"
         },
         {
             "name": "guzzlehttp/promises",
@@ -237,16 +281,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "dev-master",
+            "version": "3.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "31e25ce5e9734356f86aa2d761363fab6f2481ef"
+                "reference": "fcc5d1627e133915503a76dbe82a98723048ca76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/31e25ce5e9734356f86aa2d761363fab6f2481ef",
-                "reference": "31e25ce5e9734356f86aa2d761363fab6f2481ef",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/fcc5d1627e133915503a76dbe82a98723048ca76",
+                "reference": "fcc5d1627e133915503a76dbe82a98723048ca76",
                 "shasum": ""
             },
             "require": {
@@ -286,7 +330,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-07 19:34:59"
+            "time": "2016-11-16 22:18:16"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -405,7 +449,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "ggdx/php-toggl": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

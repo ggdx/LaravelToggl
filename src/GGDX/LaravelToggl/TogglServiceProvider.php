@@ -24,10 +24,14 @@ class TogglServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('ggdx.toggl', function ($app) {
+
+        $this->app['ggdx.toggl'] = $this->app->share(function($app){
             $config = $app->config->get('toggl', []);
 
-            return new Toggl($config);
+            return new Toggl($config['api_key']);
         });
+
+
+        $this->app->bind('GGDX\PhpToggl\Toggl', 'ggdx.toggl');
     }
 }
