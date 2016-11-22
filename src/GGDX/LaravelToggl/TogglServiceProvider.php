@@ -1,6 +1,7 @@
 <?php namespace GGDX\LaravelToggl;
 
 use Illuminate\Support\ServiceProvider;
+use GGDX\PhpToggl\Toggl as Toggl;
 
 class TogglServiceProvider extends ServiceProvider
 {
@@ -32,6 +33,6 @@ class TogglServiceProvider extends ServiceProvider
         });
 
 
-        $this->app->bind('GGDX\PhpToggl\Toggl', 'ggdx.toggl');
+        $this->app->bind('GGDX\LaravelToggl\Toggl', 'ggdx.toggl');
     }
 }
